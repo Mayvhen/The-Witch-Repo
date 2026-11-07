@@ -15,6 +15,7 @@
     --chat-bubble-media-gap: 8px;      /* espace autour des bulles de medias */
     --chat-media-bubble-max-width: 550px; /* largeur max d'une bulle de media (plus petit = bulle plus proche de l'image) */
     --chat-bubble-bg: rgba(255, 255, 255, 0.075); /* couleur des bulles */
+    --chat-forwarded-bubble-bg: rgba(170, 140, 255, 0.10); /* teinte des bulles de messages transferes (violet clair) */
     --chat-replied-spine-adjustment: -4px; /* ligne de reponse (messages de soi) : negatif = plus a droite */
     --chat-replied-padding-left: 0px;
     --chat-replied-padding-right: 0px;
@@ -144,13 +145,38 @@
 }
 
 /* ===== messages transferes =====
-   Le bloc "message transfere" a ete refait par Discord : le contenu utilise
-   désormais le meme messageContent que les messages normaux, donc la bulle
-   est deja appliquee plus haut. On garde uniquement l'alignement a droite.
-   Les anciennes classes quote/content/container_b7e1cb n'existent plus. */
+   Le wrapper Discord est container_4dy_KE (barre de citation + contenu).
+   Le contenu (entete "Forwarded" + texte + pied) est content_4dy_KE :
+   c'est lui qui recoit la bulle pour inclure l'entete "Forwarded".
+   La barre de citation (quote_4dy_KE) reste a gauche. */
 
-.messageListItem_SY_P2T[data-is-self="true"] [class*="quotedChatMessage"] {
-    align-self: flex-end;
+.content_4dy_KE {
+    background-color: var(--chat-forwarded-bubble-bg, rgba(170, 140, 255, 0.10));
+    padding: 14px !important;
+    box-sizing: border-box;
+    width: fit-content !important;
+    flex-grow: 0 !important;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    border-radius: var(--chat-bubble-radius) !important;
+}
+
+/* autres utilisateurs : bulle a gauche */
+.messageListItem_SY_P2T:not([data-is-self="true"]) .content_4dy_KE {
+    margin-right: auto;
+}
+
+/* ses propres messages : bulle a droite */
+.messageListItem_SY_P2T[data-is-self="true"] .content_4dy_KE {
+    margin-left: auto !important;
+}
+
+/* decalage horizontal (coherence avec les bulles normales) */
+.messageListItem_SY_P2T:not([data-is-self="true"]) .content_4dy_KE {
+    translate: var(--chat-bubble-shift-left, 0px) 0;
+}
+.messageListItem_SY_P2T[data-is-self="true"] .content_4dy_KE {
+    translate: var(--chat-bubble-shift-right, 0px) 0;
 }
 
 /* ===== FIX : plugin NoMosaic (suppression de la mosaique) ===== */
@@ -219,6 +245,11 @@
 .messageListItem_SY_P2T[data-is-self="true"] [id^="message-accessories-"] {
     margin-left: auto !important;
     align-items: flex-end !important;
+    text-align: right !important;
+}
+
+.messageListItem_SY_P2T[data-is-self="true"] [id^="message-accessories-"] * {
+    text-align: right !important;
 }
 
 /* ===== bulles : decalage horizontal reglable ===== */
