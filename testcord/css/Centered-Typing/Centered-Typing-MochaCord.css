@@ -16,8 +16,8 @@
 }
 
 /* 2. Hide animation dots */
-.dots_b88801,
-.typing_b88801 .dots_b88801,
+.dots_U9Tvvz,
+.typing_U9Tvvz .dots_U9Tvvz,
 .vc-typing-indicator-dots,
 .vc-typing-indicator > div:nth-of-type(2),
 [class*="typing-indicator-dots"] {
@@ -30,11 +30,11 @@
 }
 
 /* 4. Keep gap scaled to match new indicator height */
-.chatContent_f75fb0 > .form_f75fb0,
-.form_f75fb0,
-.chatContent_f75fb0 .typing_b88801,
-.typing_b88801,
+.chatContent_z_gUBg > .form_z_gUBg,
+.form_z_gUBg,
+.chatContent_z_gUBg .typing_U9Tvvz,
+.typing_U9Tvvz,
 .vc-typing-indicator {
-  margin-top: 10px !important;
-  padding-top: 8px !important;
+  margin-top: 6px !important;
+  padding-top: 10px !important;
 }

@@ -24,9 +24,9 @@ SMS-style chat bubbles with rounded corners.
 
 ---
 
-**Author:** Grande Sorciere (`Mayvhen`) — `v1.0`  
+**Author:** Grande Sorciere (`Mayvhen`) — `v1.1`  
 Built with help from OpenCode AI.
 
 ---
 
-**Release:** [v1.0.0](https://github.com/Mayvhen/The-Witch-Repo/releases)
+**Release:** [v1.1.0](https://github.com/Mayvhen/The-Witch-Repo/releases/tag/chat-bubbles-v1.1.0)

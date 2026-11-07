@@ -1,160 +1,315 @@
 /* MESSAGES - - - - - - - - - - - - - - - - - - - - - */
+
+/* =====================================================================
+   REGLAGES - TOUT SE REGLE ICI
+   ===================================================================== */
 :root {
-    /* Couleur unique des bulles (gris clair transparent, style "glass") */
-    --chat-bubble-bg: rgba(255, 255, 255, 0.075);
-    --chat-bubble-radius: 10px;
+    --chat-avatar-size: 64px;          /* taille du pfp (40 = defaut Discord) */
+    --chat-avatar-offset-left: 8px;    /* pfp des autres : plus grand = plus bas */
+    --chat-avatar-offset-right: 8px;   /* son propre pfp : plus grand = plus bas */
+    --chat-avatar-shift-left: -100px;  /* pfp des autres : plus grand = vers la droite */
+    --chat-avatar-shift-right: 100px; /* son propre pfp : plus grand = vers la droite */
+    --chat-bubble-shift-left: 10px;    /* bulles des autres : plus grand = vers la droite */
+    --chat-bubble-shift-right: -20px;    /* ses propres bulles : plus grand = vers la droite */
+    --chat-bubble-radius: 10px;        /* arrondi des bulles et du pfp */
+    --chat-bubble-media-gap: 8px;      /* espace autour des bulles de medias */
+    --chat-media-bubble-max-width: 550px; /* largeur max d'une bulle de media (plus petit = bulle plus proche de l'image) */
+    --chat-bubble-bg: rgba(255, 255, 255, 0.075); /* couleur des bulles */
+    --chat-replied-spine-adjustment: -4px; /* ligne de reponse (messages de soi) : negatif = plus a droite */
+    --chat-replied-padding-left: 0px;
+    --chat-replied-padding-right: 0px;
+
+    /* ===== decoration de profil (en PLUS du suivi automatique du pfp) ===== */
+    --avatar-decoration-size: 1.35;                /* multiplicateur de taille */
+    --avatar-decoration-horizontal-offset: 5px;    /* + = vers la droite (tous les messages) */
+    --avatar-decoration-vertical-offset: 0px;      /* + = vers le bas (tous les messages) */
+    --avatar-decoration-self-horizontal: -5px;      /* + = vers la droite (messages de soi seulement) */
+    --avatar-decoration-self-vertical: 0px;        /* + = vers le bas (messages de soi seulement) */
+    /* ================================================================= */
 }
 
-.contents_c19a55 > .messageContent_c19a55 {
+/* =====================================================================
+   HASHES DISCORD (build du 06/11/2026)
+   c19a55      -> 2i8Bfm
+   5126c       -> SY_P2T
+   23977       -> UNkajC et MmKct8 (deux variantes, on cible les deux)
+   f4758a      -> idVBIj
+   Les selecteurs "class*=" ne dependent pas du hash et servent de secours.
+   ===================================================================== */
+
+/* ===== bulle de texte ===== */
+
+.contents_2i8Bfm > .messageContent_2i8Bfm {
     background-color: var(--chat-bubble-bg);
     width: fit-content;
-    margin-left: 0px !important;
-    padding-left: 0px !important;
+    margin-left: 0 !important;
     padding: 14px !important;
-    border-radius: 0px var(--chat-bubble-radius) var(--chat-bubble-radius) 0px;
-    box-sizing: content-box;
+    box-sizing: border-box;            /* FIX: content-box + max-width 100% debordait de 28px */
     max-width: 100%;
-    word-wrap: normal;
+    overflow-wrap: break-word;         /* FIX: word-wrap: normal laissait deborder les longs mots/liens */
 }
 
-.groupStart__5126c .messageContent_c19a55 {
-    border-radius: var(--chat-bubble-radius) var(--chat-bubble-radius) var(--chat-bubble-radius) 0px;
+/* les embeds (cartes, stats, etc.) forcent aussi la bulle a la largeur du salon */
+.contents_2i8Bfm > .messageContent_2i8Bfm:has([class*="embed"]) {
+    max-width: min(var(--chat-media-bubble-max-width, 550px), 100%) !important;
 }
 
-.message__5126c,
-.contents_c19a55 {
+.message_SY_P2T,
+.wrapper_2i8Bfm,
+.contents_2i8Bfm {
     max-width: calc(100% - var(--custom-message-margin-left-content-cozy)) !important;
     min-width: calc(100% - var(--custom-message-margin-left-content-cozy)) !important;
 }
 
-.buttonContainer_c19a55 .container__040f0 {
+.buttonContainer_2i8Bfm {
     right: 20px;
 }
 
-.reactionInner__23977[aria-label*=", 1 "] .reactionCount__23977 {
+.reactionInner_UNkajC[aria-label*=", 1 "] .reactionCount_UNkajC,
+.reactionInner_MmKct8[aria-label*=", 1 "] .reactionCount_MmKct8 {
     display: none !important;
 }
 
-.messageListItem__5126c[data-is-self="true"] {
+/* ===== ses propres messages ===== */
+
+.messageListItem_SY_P2T[data-is-self="true"] {
     align-items: end;
     align-content: end;
     justify-content: end;
     justify-items: end;
 
-    .message__5126c {
+    .message_SY_P2T {
         padding-right: var(--custom-message-margin-left-content-cozy) !important;
 
-        .contents_c19a55 {
+        .contents_2i8Bfm {
             justify-items: end;
+            justify-self: end;
         }
 
-        .avatar_c19a55 {
+        .avatar_2i8Bfm {
             left: auto !important;
             right: var(--custom-message-margin-horizontal);
         }
 
-        .avatarDecoration_c19a55 {
+        .avatarDecoration_2i8Bfm {
             left: auto !important;
-            right: calc(var(--custom-message-margin-horizontal) - var(--custom-message-avatar-decoration-size) / 2 + var(--custom-message-avatar-size) / 2);
+            right: var(--custom-message-margin-horizontal) !important;
         }
 
-        .contents_c19a55 > .messageContent_c19a55 {
-            border-radius: var(--chat-bubble-radius) 0px 0px var(--chat-bubble-radius);
-            background-color: var(--chat-bubble-bg); /* ← même gris que les autres */
+        .contents_2i8Bfm > .messageContent_2i8Bfm {
+            background-color: var(--chat-bubble-bg);
         }
 
-        &.groupStart__5126c .messageContent_c19a55 {
-            border-radius: var(--chat-bubble-radius) var(--chat-bubble-radius) 0px var(--chat-bubble-radius);
-        }
-
-        .container_b7e1cb > * {
-            justify-self: end !important;
-            align-self: end !important;
-        }
-
-        .visualMediaItemContainer_f4758a {
+        .visualMediaItemContainer_idVBIj {
             width: auto;
         }
 
-        .contents_c19a55 {
-            justify-self: end;
-        }
-
-        &.hasReply_c19a55 {
+        &.hasReply_2i8Bfm {
             padding-top: 22px;
         }
 
-        .repliedMessage_c19a55 {
+        .repliedMessage_2i8Bfm {
             position: absolute;
             flex-direction: row-reverse;
-            top: 0px;
-            left: auto !important;
-            right: calc(var(--custom-message-margin-horizontal) - var(--custom-message-avatar-decoration-size) / 2 + var(--custom-message-avatar-size) / 2);
+            top: 0;
+            left: var(--chat-replied-padding-left, 0px) !important;
+            right: var(--chat-replied-padding-right, 0px) !important;
             margin-right: calc(var(--chat-avatar-size) * 1.5 + 12px);
-            max-width: calc(100% - var(--custom-guild-sidebar-width) - var(--custom-guild-list-width) + 32px);
+            max-width: calc(100% - var(--custom-message-margin-left-content-cozy)) !important;
         }
 
-        .repliedMessageClickableSpine_c19a55 {
-            right: calc(var(--chat-avatar-size) / 2 * -1 + var(--gutter) * -1 - 4px);
+        /* FIX: les deux regles de la spine etaient dupliquees, fusionnees ici */
+        .repliedMessageClickableSpine_2i8Bfm {
             left: 100%;
+            right: calc(var(--chat-avatar-size) / 2 * -1 + var(--gutter) * -1 - 4px + var(--chat-replied-spine-adjustment, 0px)) !important;
+            border-top: var(--spine-width) solid var(--spine-default);
             border-right: var(--spine-width) solid var(--spine-default);
             border-bottom: 0 solid var(--spine-default);
             border-left: 0 solid var(--spine-default);
-            border-top: 2px solid var(--spine-default);
-            border-top: var(--spine-width) solid var(--spine-default);
             border-top-right-radius: 6px;
-            border-top-left-radius: 0px;
+            border-top-left-radius: 0;
         }
     }
 
-    .buttonContainer_c19a55 {
+    .buttonContainer_2i8Bfm {
         right: auto;
-        left: 0;
-
-        .container__040f0 {
-            right: auto;
-            left: 56px;
-        }
+        left: 56px;
     }
 
-    .reactions__23977 {
+    .reactions_UNkajC,
+    .reactions_MmKct8 {
         align-content: flex-end;
         justify-content: flex-end;
     }
 }
 
-/* Fixing forwarded messages */
-.messageListItem__5126c {
-    .content__122e4 {
-        background: var(--chat-bubble-bg) !important;
-        border-radius: var(--chat-bubble-radius) var(--chat-bubble-radius) var(--chat-bubble-radius) 0px;
-        padding: 14px;
-        max-width: fit-content;
-    }
-    &[data-is-self="true"] {
-        .message__5126c {
-            .container_b7e1cb > * {
-                flex-direction: row-reverse;
+/* ===== messages transferes =====
+   Le bloc "message transfere" a ete refait par Discord : le contenu utilise
+   désormais le meme messageContent que les messages normaux, donc la bulle
+   est deja appliquee plus haut. On garde uniquement l'alignement a droite.
+   Les anciennes classes quote/content/container_b7e1cb n'existent plus. */
 
-                .quote__122e4 {
-                    margin-inline-start: 12px;
-                    margin-inline-end: 0;
-                }
-                .content__122e4 {
-                    align-items: flex-end;
-                    background: var(--chat-bubble-bg) !important; /* ← même gris */
-                    border-radius: var(--chat-bubble-radius) var(--chat-bubble-radius) 0px var(--chat-bubble-radius);
-                }
-                .messageContent_c19a55 {
-                    padding-inline-start: 0;
-                    margin-inline-start: 0;
-                    margin-inline-end: auto;
-                    padding-inline-end: auto;
-                }
-                .container_b7e1cb > * .oneByTwoGrid_f4758a {
-                    flex-direction: row-reverse;
-                }
-            }
-        }
-    }
+.messageListItem_SY_P2T[data-is-self="true"] [class*="quotedChatMessage"] {
+    align-self: flex-end;
+}
+
+/* ===== FIX : plugin NoMosaic (suppression de la mosaique) ===== */
+
+.nonVisualMediaItemContainer_idVBIj,
+[class*="nonVisualMediaItemContainer"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: 4px;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+.nonVisualMediaItemContainer_idVBIj > *,
+[class*="nonVisualMediaItemContainer"] > * {
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+[class*="nonVisualMediaItemContainer"] [class*="imageWrapper"] {
+    max-width: 100% !important;
+}
+
+/* ===== pieces jointes : meme bulle que les messages texte ===== */
+
+[id^="message-accessories-"]:has(
+        [class*="nonVisualMediaItem"],
+        [class*="imageWrapper"],
+        [class*="attachment"],
+        video,
+        audio
+    ) {
+    background-color: var(--chat-bubble-bg);
+    display: flex !important;              /* FIX: les medias Discord sont en width:100%, */
+    flex-direction: column !important;     /* fit-content prenait donc toute la largeur.  */
+    align-items: flex-start !important;    /* Ici la bulle se reduit au contenu.          */
+    width: fit-content !important;
+    max-width: min(var(--chat-media-bubble-max-width, 550px), 100%) !important;
+    padding: 14px !important;
+    margin-top: var(--chat-bubble-media-gap, 8px) !important;
+    margin-bottom: var(--chat-bubble-media-gap, 8px) !important;
+    box-sizing: border-box;            /* FIX: meme debordement que la bulle de texte */
+}
+
+/* les enfants ne doivent pas reprendre 100% de la largeur de la bulle */
+[id^="message-accessories-"]:has(
+        [class*="nonVisualMediaItem"],
+        [class*="imageWrapper"],
+        [class*="attachment"],
+        video,
+        audio
+    ) > * {
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* les wrappers media Discord sont en width:100% : on les repasse en auto
+   pour qu'ils prennent la taille rendue de l'image, pas la largeur du salon */
+[id^="message-accessories-"] [class*="visualMediaItemContainer"],
+[id^="message-accessories-"] [class*="oneByOneGrid"] {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
+.messageListItem_SY_P2T[data-is-self="true"] [id^="message-accessories-"] {
+    margin-left: auto !important;
+    align-items: flex-end !important;
+}
+
+/* ===== bulles : decalage horizontal reglable ===== */
+
+.messageListItem_SY_P2T:not([data-is-self="true"]) .message_SY_P2T > .contents_2i8Bfm,
+.messageListItem_SY_P2T:not([data-is-self="true"]) .message_SY_P2T > [id^="message-accessories-"] {
+    translate: var(--chat-bubble-shift-left, 0px) 0;
+}
+
+.messageListItem_SY_P2T[data-is-self="true"] .message_SY_P2T > .contents_2i8Bfm,
+.messageListItem_SY_P2T[data-is-self="true"] .message_SY_P2T > [id^="message-accessories-"] {
+    translate: var(--chat-bubble-shift-right, 0px) 0;
+}
+
+/* ===== bulles : coins arrondis uniformes ===== */
+/* Les anciennes regles de rayon par cote etaient toutes ecrasees par ce
+   bloc (!important), je les ai supprimees. */
+
+.messageContent_2i8Bfm,
+[id^="message-accessories-"] {
+    border-radius: var(--chat-bubble-radius) !important;
+}
+
+/* ===== avatars ===== */
+
+.message_SY_P2T .avatar_2i8Bfm {
+    width: var(--chat-avatar-size, 64px) !important;
+    height: var(--chat-avatar-size, 64px) !important;
+    border-radius: var(--chat-bubble-radius) !important;
+    overflow: hidden;
+}
+
+.message_SY_P2T .avatar_2i8Bfm img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: inherit !important;
+}
+
+/* autres utilisateurs : avatar a gauche */
+.message_SY_P2T .avatar_2i8Bfm {
+    margin-left: var(--chat-avatar-shift-left, 0px) !important;
+    translate: 0 var(--chat-avatar-offset-left, 0px);
+}
+
+/* ses propres messages : avatar a droite.
+   FIX: la marge droite etait appliquee telle quelle, donc une valeur positive
+   poussait le pfp vers la GAUCHE (l'inverse de ce que dit le commentaire du
+   haut). On l'inverse pour que "plus grand = vers la droite". */
+.messageListItem_SY_P2T[data-is-self="true"] .message_SY_P2T .avatar_2i8Bfm {
+    margin-right: calc(var(--chat-avatar-shift-right, 0px) * -1) !important;
+    translate: 0 var(--chat-avatar-offset-right, 0px);
+}
+
+/* ===== decorations d'avatar ===== */
+
+/* FIX: le multiplicateur etait code en dur (1.35) : --avatar-decoration-size
+   n'etait lu nulle part. */
+.message_SY_P2T {
+    --chat-avatar-decoration-size: calc(var(--chat-avatar-size, 64px) * var(--avatar-decoration-size, 1.35));
+}
+
+.message_SY_P2T .avatarDecoration_2i8Bfm {
+    width: var(--chat-avatar-decoration-size) !important;
+    height: var(--chat-avatar-decoration-size) !important;
+    margin-left: var(--chat-avatar-shift-left, 0px) !important;
+    /* Centrage sur le pfp + meme descente que le pfp (FIX: la descente
+       --chat-avatar-offset-left n'etait pas appliquee a la decoration) +
+       reglages manuels. */
+    translate:
+        calc((var(--chat-avatar-size, 64px) - var(--chat-avatar-decoration-size)) / 2 + var(--avatar-decoration-horizontal-offset, 0px))
+        calc((var(--chat-avatar-size, 64px) - var(--chat-avatar-decoration-size)) / 2 + var(--chat-avatar-offset-left, 0px) + var(--avatar-decoration-vertical-offset, 0px))
+        !important;
+    transform: none !important;
+}
+
+/* messages de soi : la decoration est ancree par la DROITE, donc pour la
+   centrer sur le pfp il faut la decaler vers la droite (signe inverse du
+   cas precedent, qui est ancre par la gauche). */
+.messageListItem_SY_P2T[data-is-self="true"] .message_SY_P2T .avatarDecoration_2i8Bfm {
+    margin-right: calc(var(--chat-avatar-shift-right, 0px) * -1) !important;
+    translate:
+        calc((var(--chat-avatar-decoration-size) - var(--chat-avatar-size, 64px)) / 2 + var(--avatar-decoration-horizontal-offset, 0px) + var(--avatar-decoration-self-horizontal, 0px))
+        calc((var(--chat-avatar-size, 64px) - var(--chat-avatar-decoration-size)) / 2 + var(--chat-avatar-offset-right, 0px) + var(--avatar-decoration-vertical-offset, 0px) + var(--avatar-decoration-self-vertical, 0px))
+        !important;
+}
+
+/* l'image/svg interne de la decoration remplit la boite */
+.message_SY_P2T .avatarDecoration_2i8Bfm > *,
+.message_SY_P2T .avatarDecoration_2i8Bfm svg,
+.message_SY_P2T .avatarDecoration_2i8Bfm img {
+    width: 100% !important;
+    height: 100% !important;
 }
